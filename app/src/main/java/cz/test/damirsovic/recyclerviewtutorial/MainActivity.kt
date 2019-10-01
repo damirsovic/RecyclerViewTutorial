@@ -35,6 +35,14 @@ class MainActivity : AppCompatActivity() {
             dataViewModel.decreaseData()
             setVisibility()
         }
+        bCombine.setOnClickListener {
+            dataViewModel.combineData()
+            setVisibility()
+        }
+        bAlter.setOnClickListener {
+            dataViewModel.alterData()
+            setVisibility()
+        }
     }
 
     private fun setVisibility(){

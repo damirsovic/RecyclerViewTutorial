@@ -21,6 +21,14 @@ class MainActivityViewModel : ViewModel() {
         repo.decrease()
     }
 
+    fun combineData(){
+        repo.combine()
+    }
+
+    fun alterData(){
+        repo.alter()
+    }
+
     fun getCurrentNumber() : Int{
         return repo.number.value!!
     }
