@@ -1,10 +1,7 @@
 package cz.test.damirsovic.recyclerviewtutorial.viewmodel
 
 import androidx.lifecycle.ViewModel
-
 import cz.test.damirsovic.recyclerviewtutorial.model.DataModelRepository
-import androidx.lifecycle.MediatorLiveData
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
 
 
@@ -25,8 +22,8 @@ class MainActivityViewModel : ViewModel() {
         repo.combine()
     }
 
-    fun alterData(){
-        repo.alter()
+    fun changeData(){
+        repo.changeList()
     }
 
     fun getCurrentNumber() : Int{

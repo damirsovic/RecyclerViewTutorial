@@ -26,15 +26,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Increase"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-    <Button
-        android:id="@+id/bDec"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Decrease"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/bCombine"
@@ -49,10 +42,18 @@
         android:id="@+id/bAlter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Change"
         app:layout_constraintEnd_toStartOf="@id/bDec"
         app:layout_constraintStart_toEndOf="@id/bCombine"
-        tools:layout_editor_absoluteY="684dp" />
+        app:layout_constraintTop_toTopOf="@+id/bInc" />
+
+    <Button
+        android:id="@+id/bDec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Decrease"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

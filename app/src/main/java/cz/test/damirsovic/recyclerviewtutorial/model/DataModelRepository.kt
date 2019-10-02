@@ -1,124 +1,120 @@
 package cz.test.damirsovic.recyclerviewtutorial.model
 
 
+import android.os.SystemClock
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
-import java.util.*
 
 
 class DataModelRepository {
-    val items = arrayOf(
-        "Mango",
-        "Apple",
-        "Orange",
-        "Banana",
-        "Grapes"
+    val items: List<DataModel> = arrayOf(
+        DataModel("Mango", 0),
+        DataModel("Apple", 0),
+        DataModel("Orange", 0),
+        DataModel("Banana", 0),
+        DataModel("Grapes", 0)
     ).asList()
 
-    val newItems = arrayOf(
-        "Berry",
-        "Peach",
-        "Lemon",
-        "Kiwi",
-        "Cherry"
+    val newItems: List<DataModel> = arrayOf(
+        DataModel("Berry", 0),
+        DataModel("Peach", 0),
+        DataModel("Lemon", 0),
+        DataModel("Kiwi", 0),
+        DataModel("Cherry", 0)
     ).asList()
 
-    val itemList : MutableLiveData<List<String>> = MutableLiveData<List<String>>()
+    // mutable list of items
+    val itemsList: MutableLiveData<List<DataModel>> = MutableLiveData<List<DataModel>>()
+    var stream : Observable<DataModel>? = null
 
-    val number : MutableLiveData<Int> = MutableLiveData<Int>()
+    // keep last value
+    val number: MutableLiveData<Int> = MutableLiveData<Int>(0)
+    // check if data's changed
+    val changed: MutableLiveData<Boolean> = MutableLiveData(false)
 
     constructor() {
-        number.value =0
         loadItems()
             .toList()
             .toObservable()
-            .doOnNext{item -> itemList.postValue(item)}
+            .doOnNext { item -> itemsList.postValue(item) }
             .subscribe(
-            { a -> System.out.println(a)},
-            { err -> System.out.println(err.localizedMessage) },
-            { System.out.println("Finished") }
-        )
-
-    }
-
-    fun increase() {
-        number.value = (number.value)?.plus(1)
-        loadItems()
-            .toList()
-            .toObservable()
-            .subscribe(
-            { a ->
-                itemList.postValue(a)
-                System.out.println("Decrease ".plus(a))
-            },
-            { err -> System.out.println(err.localizedMessage) },
-            { System.out.println("Finished increase") }
-        )
-    }
-
-    fun decrease() {
-        number.value = (number.value)?.minus(1)
-        loadItems()
-            .toList()
-            .toObservable()
-            .doOnNext{item -> itemList.postValue(item)}
-            .subscribe(
-            { a ->
-                System.out.println("Decrease ".plus(a))
-            },
-            { err -> System.out.println(err.localizedMessage) },
-            { System.out.println("Finished decrease") }
-        )
-    }
-    fun combine(){
-        Observable.merge(loadItems(), alterItems())
-            .toList()
-            .toObservable()
-            .doOnNext{item ->
-                System.out.println("Combination onNext ".plus(item))
-                itemList.postValue(item)}
-            .subscribe(
-            { a ->
-                System.out.println("Combination ".plus(a))
-            },
-            { err -> System.out.println(err.localizedMessage) },
-            { System.out.println("Finished combination") }
-        )
-    }
-
-    fun alter(){
-        alterItems()
-            .toList()
-            .toObservable()
-            .doOnNext{item -> itemList.postValue(item)}
-            .subscribe(
-                { a ->
-                    System.out.println("Alter ".plus(a))
-                },
+                { a -> System.out.println(a) },
                 { err -> System.out.println(err.localizedMessage) },
-                { System.out.println("Finished alter") }
+                { System.out.println("Finished") }
             )
     }
 
-    fun loadItems() : Observable<String> {
-        return Observable.fromArray(items)
-            .observeOn(Schedulers.computation())
-            .subscribeOn(Schedulers.computation())
+    fun getItems() = itemsList
+
+    // Data operations
+    //
+
+    //Increase number on existing list
+    fun increase() {
+        // save last value
+        number.value = (number.value)?.plus(1)
+        // change number in the list
+        stream = Observable.fromArray(itemsList.value)
             .flatMapIterable { list -> list }
-            .map { s -> String.format("%s %d", s, number.value) }
-            .doOnNext{ item -> System.out.println("LoadItems ".plus(item))
-            }
+            .map {dm -> DataModel(dm.name, number.value!!) }
+        update()
     }
 
-    fun alterItems() : Observable<String> {
-        return Observable.fromArray(newItems)
+    // decrease number on existing list
+    fun decrease() {
+        // save last value
+        number.value = (number.value)?.minus(1)
+        // change value in the list
+        stream = Observable.fromArray(itemsList.value)
+            .flatMapIterable { list -> list }
+            .map {dm -> DataModel(dm.name, number.value!!) }
+        update()
+    }
+
+    // Combine both lists
+    fun combine() {
+        // merge items and newItems to one list
+        stream = Observable.concat(loadItems(), loadNewItems())
+        update()
+    }
+
+    // load newItems to itemsList
+    fun changeList() {
+        if(changed.value!!)
+            stream = loadItems()
+        else
+            stream = loadNewItems()
+        changed.value = !changed.value!!
+        update()
+    }
+
+    fun update() {
+        stream!!
+            .toList()
+            .toObservable()
+            .doOnNext { item -> itemsList.postValue(item) }
+            .subscribe(
+                { a ->
+                    System.out.println("Update ".plus(a))
+                },
+                { err -> System.out.println("Error in update: ".plus(err.localizedMessage)) },
+                { System.out.println("Finished update") }
+            )
+    }
+
+    // Load items to stream of DataModels
+    fun loadItems(): Observable<DataModel> =
+        Observable.fromIterable(items)
             .observeOn(Schedulers.computation())
             .subscribeOn(Schedulers.computation())
-            .flatMapIterable{list -> list}
-            .map { s -> String.format("%s %d", s, number.value) }
-            .doOnNext{item -> System.out.println("alterItems ".plus(item))}
-    }
+            .map { dm -> DataModel(dm.name, number.value!!) }
 
-    fun getItems() = itemList
+
+    // Load newItems to stream of DataModels
+    fun loadNewItems(): Observable<DataModel> =
+        Observable.fromIterable(newItems)
+            .observeOn(Schedulers.computation())
+            .subscribeOn(Schedulers.computation())
+            .map { dm -> DataModel(dm.name, number.value!!) }
 }

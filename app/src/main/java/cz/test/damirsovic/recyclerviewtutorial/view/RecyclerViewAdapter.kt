@@ -5,10 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import cz.test.damirsovic.recyclerviewtutorial.R
+import cz.test.damirsovic.recyclerviewtutorial.model.DataModel
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.data_item.view.*
 
-class RecyclerViewAdapter(val items:List<String>) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
+class RecyclerViewAdapter(val items:List<DataModel>) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             : RecyclerViewAdapter.ViewHolder {
@@ -18,7 +19,8 @@ class RecyclerViewAdapter(val items:List<String>) : RecyclerView.Adapter<Recycle
     }
 
     override fun onBindViewHolder(holder: RecyclerViewAdapter.ViewHolder, position: Int) {
-        holder.descriptionItem.text = items[position]
+        val item : DataModel = items[position]
+        holder.descriptionItem.text = String.format("%s %d", item.name, item.number)
     }
 
     override fun getItemCount(): Int {

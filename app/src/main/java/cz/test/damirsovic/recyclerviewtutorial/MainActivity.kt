@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             setVisibility()
         }
         bAlter.setOnClickListener {
-            dataViewModel.alterData()
+            dataViewModel.changeData()
             setVisibility()
         }
     }
