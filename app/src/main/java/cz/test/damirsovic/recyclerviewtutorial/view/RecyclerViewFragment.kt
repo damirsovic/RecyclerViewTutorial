@@ -8,15 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import cz.test.damirsovic.recyclerviewtutorial.R
-import cz.test.damirsovic.recyclerviewtutorial.events.IFragmentEvent
-import cz.test.damirsovic.recyclerviewtutorial.viewmodel.RecyclerViewViewModel
+import cz.test.damirsovic.recyclerviewtutorial.viewmodel.MainActivityViewModel
 import kotlinx.android.synthetic.main.recycler_view_fragment.*
 
 class RecyclerViewFragment : Fragment() {
 
-    private lateinit var viewModel: RecyclerViewViewModel
+    private lateinit var viewModel: MainActivityViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,8 +25,7 @@ class RecyclerViewFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(RecyclerViewViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
 
         dataView.layoutManager = LinearLayoutManager(context)
         viewModel

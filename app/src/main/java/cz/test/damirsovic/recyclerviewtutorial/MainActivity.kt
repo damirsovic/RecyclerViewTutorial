@@ -3,8 +3,6 @@ package cz.test.damirsovic.recyclerviewtutorial
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import cz.test.damirsovic.recyclerviewtutorial.events.IFragmentEvent
 import cz.test.damirsovic.recyclerviewtutorial.view.InitFragment

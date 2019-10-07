@@ -34,6 +34,9 @@ class InitFragment : Fragment() {
         runRecyclerDemo.setOnClickListener {
             fragmentEvent.SetFragment(RecyclerViewFragment())
         }
+        runWikiSearchDemo.setOnClickListener {
+            fragmentEvent.SetFragment(WikiSearchCountFragment())
+        }
     }
 
     override fun onAttach(context: Context) {

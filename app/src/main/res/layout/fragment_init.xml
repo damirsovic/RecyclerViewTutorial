@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="50dp"
+    android:orientation="vertical"
     tools:context=".view.InitFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -13,5 +16,16 @@
         android:id="@+id/runRecyclerDemo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Run RecyclerView Demo" />
-</LinearLayout>
+        android:text="@string/button_recyclerview_demo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/runWikiSearchDemo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/button_wiki_demo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/runRecyclerDemo" />
+</androidx.constraintlayout.widget.ConstraintLayout>

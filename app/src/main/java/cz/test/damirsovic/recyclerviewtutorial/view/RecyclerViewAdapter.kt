@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import cz.test.damirsovic.recyclerviewtutorial.R
 import cz.test.damirsovic.recyclerviewtutorial.model.DataModel
-import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.data_item.view.*
 
 class RecyclerViewAdapter(val items:List<DataModel>) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
