@@ -34,7 +34,7 @@ class DataModelRepository {
     val changed: MutableLiveData<Boolean> = MutableLiveData(false)
 
     constructor() {
-        loadItems()
+        loadItems(items)
             .toList()
             .toObservable()
             .doOnNext { item -> itemsList.postValue(item) }
@@ -55,8 +55,7 @@ class DataModelRepository {
         // save last value
         number.value = (number.value)?.plus(1)
         // change number in the list
-        stream = Observable.fromArray(itemsList.value)
-            .flatMapIterable { list -> list }
+        stream = Observable.fromIterable(itemsList.value)
             .map {dm -> DataModel(dm.name, number.value!!) }
         update()
     }
@@ -66,8 +65,7 @@ class DataModelRepository {
         // save last value
         number.value = (number.value)?.minus(1)
         // change value in the list
-        stream = Observable.fromArray(itemsList.value)
-            .flatMapIterable { list -> list }
+        stream = Observable.fromIterable(itemsList.value)
             .map {dm -> DataModel(dm.name, number.value!!) }
         update()
     }
@@ -75,16 +73,16 @@ class DataModelRepository {
     // Combine both lists
     fun combine() {
         // merge items and newItems to one list
-        stream = Observable.concat(loadItems(), loadNewItems())
+        stream = Observable.concat(loadItems(items), loadItems(newItems))
         update()
     }
 
     // load newItems to itemsList
     fun changeList() {
         if(changed.value!!)
-            stream = loadItems()
+            stream = loadItems(items)
         else
-            stream = loadNewItems()
+            stream = loadItems(newItems)
         changed.value = !changed.value!!
         update()
     }
@@ -104,16 +102,8 @@ class DataModelRepository {
     }
 
     // Load items to stream of DataModels
-    fun loadItems(): Observable<DataModel> =
-        Observable.fromIterable(items)
-            .observeOn(Schedulers.computation())
-            .subscribeOn(Schedulers.computation())
-            .map { dm -> DataModel(dm.name, number.value!!) }
-
-
-    // Load newItems to stream of DataModels
-    fun loadNewItems(): Observable<DataModel> =
-        Observable.fromIterable(newItems)
+    fun loadItems(list : List<DataModel>): Observable<DataModel> =
+        Observable.fromIterable(list)
             .observeOn(Schedulers.computation())
             .subscribeOn(Schedulers.computation())
             .map { dm -> DataModel(dm.name, number.value!!) }

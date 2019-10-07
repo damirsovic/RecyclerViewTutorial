@@ -7,53 +7,13 @@
             name="viewmodel"
             type="cz.test.damirsovic.recyclerviewtutorial.viewmodel.MainActivityViewModel" />
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/dataView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/GlobalHolder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@id/bInc"
-        tools:layout_editor_absoluteX="116dp">
+        tools:context=".MainActivity">
 
-    </androidx.recyclerview.widget.RecyclerView>
 
-    <Button
-        android:id="@+id/bInc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Increase"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/bCombine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Combine"
-        app:layout_constraintEnd_toStartOf="@id/bAlter"
-        app:layout_constraintStart_toEndOf="@+id/bInc"
-        app:layout_constraintTop_toTopOf="@+id/bInc" />
-
-    <Button
-        android:id="@+id/bAlter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Change"
-        app:layout_constraintEnd_toStartOf="@id/bDec"
-        app:layout_constraintStart_toEndOf="@id/bCombine"
-        app:layout_constraintTop_toTopOf="@+id/bInc" />
-
-    <Button
-        android:id="@+id/bDec"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Decrease"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

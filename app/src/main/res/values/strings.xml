@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">RecyclerViewTutorial</string>
     <string name="NASA_ID">vWid00jd7lllITPea0X8bKyxyTOXbBqSLaaCbOhc</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
